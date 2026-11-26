@@ -1,72 +1,73 @@
+# Lista donde se guardan todos los productos
+productos = []
 
-      productos = []
+def agregar_producto():
+    nombre = input("Nombre del producto: ")
+    stock = int(input("Stock: "))
+    precio = float(input("Precio: "))
+    productos.append({"nombre": nombre, "stock": stock, "precio": precio})
+    print("Producto agregado!")
 
-def pedir_texto(mensaje):
-    while True:
-        valor = input(mensaje).strip()
-        if valor:
-            return valor
-        print("Error: el texto no puede quedar vacío.")
+def listar_productos():
+    if len(productos) == 0:
+        print("No hay productos cargados.")
+    else:
+        for p in productos:
+            print(p["nombre"], "- Stock:", p["stock"], "- Precio:", p["precio"])
 
-def pedir_float_positivo(mensaje):
-    while True:
-        try:
-            valor = float(input(mensaje).strip())
-            if valor > 0:
-                return valor
-            print("Error: el número debe ser mayor a 0.")
-        except ValueError:
-            print("Error: ingresá un número decimal válido.")
-
-def pedir_int_no_negativo(mensaje):
-    while True:
-        try:
-            valor = int(input(mensaje).strip())
-            if valor >= 0:
-                return valor
-            print("Error: el número debe ser mayor o igual a 0.")
-        except ValueError:
-            print("Error: ingresá un número entero válido.")
-
-def agregar_producto(productos):
-    print("\n--- AGREGAR PRODUCTO ---")
-    nombre = pedir_texto("Nombre del producto: ")
+def buscar_producto():
+    nombre = input("¿Qué producto querés buscar? ")
     for p in productos:
-        if p["nombre"].lower() == nombre.lower():
-            print("Error: ya existe un producto con ese nombre.")
+        if p["nombre"] == nombre:
+            print("Encontrado:", p)
             return
-    precio = pedir_float_positivo("Precio unitario ($): ")
-    stock = pedir_int_no_negativo("Stock inicial: ")
-    productos.append({
-        "nombre": nombre,
-        "precio": precio,
-        "stock": stock
-    })
-    print(f"Producto '{nombre}' guardado correctamente.")
+    print("No se encontró el producto.")
 
-def mostrar_menu():
-    print("\n--- GESTOR DE STOCK ALMACÉN SLP ---")
-    print("1. Agregar producto")
-    print("2. Listar productos")
-    print("3. Buscar producto")
-    print("4. Modificar precio o stock")
-    print("5. Eliminar producto")
-    print("6. Ver alertas de stock bajo y valor total")
-    print("7. Salir")
+def modificar_producto():
+    nombre = input("¿Qué producto querés modificar? ")
+    for p in productos:
+        if p["nombre"] == nombre:
+            p["stock"] = int(input("Nuevo stock: "))
+            p["precio"] = float(input("Nuevo precio: "))
+            print("Producto modificado!")
+            return
+    print("No se encontró el producto.")
 
-def main():
-    while True:
-        mostrar_menu()
-        opcion = input("Elegí una opción (1-7): ").strip()
-        if opcion == "1":
-            agregar_producto(productos)
-        elif opcion == "7":
-            print("Saliendo del sistema...")
-            break
-        elif opcion in ["2", "3", "4", "5", "6"]:
-            print(f"Opción {opcion} seleccionada (en desarrollo).")
-        else:
-            print("Opción inválida. Ingresá un número del 1 al 7.")
+def eliminar_producto():
+    nombre = input("¿Qué producto querés eliminar? ")
+    for p in productos:
+        if p["nombre"] == nombre:
+            productos.remove(p)
+            print("Producto eliminado!")
+            return
+    print("No se encontró el producto.")
 
-if _name_ == "_main_":
-    main()
+def stock_bajo():
+    for p in productos:
+        if p["stock"] < 5:
+            print(p["nombre"], "- Stock bajo:", p["stock"])
+
+# Programa principal
+while True:
+    print("\n--- MENÚ ---")
+    print("1 Agregar | 2 Listar | 3 Buscar")
+    print("4 Modificar | 5 Eliminar | 6 Stock bajo | 0 Salir")
+    opcion = int(input("Elegí una opción: "))
+
+    if opcion == 0:
+        print("¡Chau! Programa terminado.")
+        break
+    elif opcion == 1:
+        agregar_producto()
+    elif opcion == 2:
+        listar_productos()
+    elif opcion == 3:
+        buscar_producto()
+    elif opcion == 4:
+        modificar_producto()
+    elif opcion == 5:
+        eliminar_producto()
+    elif opcion == 6:
+        stock_bajo()
+    else:
+        print("Opción inválida")
