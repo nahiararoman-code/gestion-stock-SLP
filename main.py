@@ -1,12 +1,44 @@
+
 # Lista donde se guardan todos los productos
 productos = []
 
 def agregar_producto():
-    nombre = input("Nombre del producto: ")
-    stock = int(input("Stock: "))
-    precio = float(input("Precio: "))
+    while True:
+        nombre = input("Nombre del producto: ").strip()
+        if nombre == "":
+            print("Error: el nombre no puede estar vacío.")
+        else:
+            break
+
+    while True:
+        try:
+            stock = int(input("Stock: "))
+            if stock >= 0:
+                break
+            else:
+                print("Error: el stock no puede ser negativo.")
+        except ValueError:
+            print("Error: ingresá un número entero válido.")
+
+    while True:
+        try:
+            precio = float(input("Precio: "))
+            if precio > 0:
+                break
+            else:
+                print("Error: el precio debe ser mayor a 0.")
+        except ValueError:
+            print("Error: ingresá un número válido.")
+
     productos.append({"nombre": nombre, "stock": stock, "precio": precio})
     print("Producto agregado!")
+
+def listar_productos():
+    if len(productos) == 0:
+        print("No hay productos cargados.")
+    else:
+        for p in productos:
+            print(p["nombre"], "- Stock:", p["stock"], "- Precio:", p["precio"])
 
 def listar_productos():
     if len(productos) == 0:
@@ -71,3 +103,7 @@ while True:
         stock_bajo()
     else:
         print("Opción inválida")
+
+
+   
+  
