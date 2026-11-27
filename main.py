@@ -1,4 +1,3 @@
-
 # Lista donde se guardan todos los productos
 productos = []
 
